@@ -7,10 +7,18 @@ namespace App;
 class Developer extends Worker
 {
     use HasRest;
-    private string $position = 'Undefined';
-    protected string $language;
-    protected string $framework;
+    public string $position = 'Undefined';
+    public string $language;
+    public string $framework;
+    public array $attribute;
 
+    /**
+     * @return array
+     */
+    public function getAttribute(): array
+    {
+        return $this->attribute;
+    }
 
 
     public function __construct($name, $age, $hours, $language, $framework)
@@ -20,11 +28,27 @@ class Developer extends Worker
         $this->framework = $framework;
     }
 
+    public function __toString()
+    {
+        // TODO: Implement __toString() method.
+        return $this->getName().' '.$this->getPosition();
+    }
+
+
     public function work(){
         print_r("I am developing\n");
     }
 
+    public function __set(string $name, $value):void{
+        $this->attribute[$name] = $value;
+    }
 
+    public function __get(string $name){
+        if(isset($this->attribute[$name])){
+            return $name;
+        }
+        return null;
+    }
 
     /**
      * @param string $language
